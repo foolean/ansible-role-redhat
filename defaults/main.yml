@@ -1,0 +1,13 @@
+# Copyright (c) 2023, Bennett Samowich <bennett@foolean.org>
+# All rights reserved
+# SPDX short identifier: BSD-3-Clause
+---
+
+# RedHat organization ID
+redhat_org_id: "fix-me"
+
+# RedHat activation key
+redhat_activation_key: "fix-me"
+
+# State of the subscription
+subscription_state: present

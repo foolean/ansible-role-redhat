@@ -1,0 +1,21 @@
+# Copyright (c) 2023, Bennett Samowich <bennett@foolean.org>
+# All rights reserved
+# SPDX short identifier: BSD-3-Clause
+---
+
+
+- name: Register RedHat system and add subscription
+  redhat_subscription:
+    activationkey: "{{ redhat_activation_key }}"
+    org_id: "{{ redhat_org_id }}"
+    state: "{{ subscription_state }}"
+  when:
+    - ansible_distribution == "RedHat"
+    - redhat_activation_key != "fix-me" and redhat_org_id != "fix-me"
+
+
+- name: Ensure gpgcheck is globally activated (CIS)
+  ansible.builtin.lineinfile:
+    path: '/etc/dnf/dnf.conf'
+    regexp: "^gpgcheck="
+    line: 'gpgcheck=1'
