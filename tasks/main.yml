@@ -5,7 +5,7 @@
 
 
 - name: Register RedHat system and add subscription
-  redhat_subscription:
+  community.general.redhat_subscription:
     activationkey: "{{ redhat_activation_key }}"
     org_id: "{{ redhat_org_id }}"
     state: "{{ subscription_state }}"
