@@ -9,37 +9,38 @@
 - name: Role foolean/redhat
   block:
 
-  - name: CIS | Register RedHat system and add subscription
-    become: true
-    community.general.redhat_subscription:
-      activationkey: "{{ redhat_activation_key }}"
-      org_id: "{{ redhat_org_id }}"
-      state: "{{ redhat_subscription_state }}"
-    when:
-      - ansible_distribution == "RedHat"
-      - redhat_activation_key != "fix-me" and redhat_org_id != "fix-me"
+    - name: CIS | Register RedHat system and add subscription
+      become: true
+      community.general.redhat_subscription:
+        activationkey: "{{ redhat_activation_key }}"
+        org_id: "{{ redhat_org_id }}"
+        state: "{{ redhat_subscription_state }}"
+      when:
+        - ansible_distribution == "RedHat"
+        - redhat_activation_key != "fix-me" and redhat_org_id != "fix-me"
 
-  - name: CIS | Ensure gpgcheck is globally activated
-    become: true
-    ansible.builtin.lineinfile:
-      path: '/etc/dnf/dnf.conf'
-      regexp: "^gpgcheck="
-      line: 'gpgcheck=1'
+    - name: CIS | Ensure gpgcheck is globally activated
+      become: true
+      ansible.builtin.lineinfile:
+        path: '/etc/dnf/dnf.conf'
+        regexp: "^gpgcheck="
+        line: 'gpgcheck=1'
 
-  - name: CIS | Ensure system-wide crypto policy is not legacy (check)
-    become: true
-    ansible.builtin.command:
-      cmd: "update-crypto-policies --show"
-    register: crypto_policy
-    changed_when: false
-    failed_when: false
-    check_mode: false
+    - name: CIS | Ensure system-wide crypto policy is not legacy (check)
+      become: true
+      ansible.builtin.command:
+        cmd: "update-crypto-policies --show"
+      register: crypto_policy
+      changed_when: false
+      failed_when: false
+      check_mode: false
 
-  - name: CIS | Ensure system-wide crypto policy is not legacy (set)
-    become: true
-    ansible.builtin.command:
-      cmd: "update-crypto-policies --set {{ redhat_crypto_policy }}"
-    when: crypto_policy.stdout != redhat_crypto_policy
+    - name: CIS | Ensure system-wide crypto policy is not legacy (set)
+      become: true
+      ansible.builtin.command:
+        cmd: "update-crypto-policies --set {{ redhat_crypto_policy }}"
+      when: crypto_policy.stdout != redhat_crypto_policy
 
+  # Tags to be applied to this role (block)
   tags:
     - 'role_foolean_redhat'
