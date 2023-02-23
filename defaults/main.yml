@@ -9,5 +9,12 @@ redhat_org_id: "fix-me"
 # RedHat activation key
 redhat_activation_key: "fix-me"
 
-# State of the subscription
-subscription_state: present
+# redhat_subscription_state
+#   State of the subscription
+#   (default: present)
+redhat_subscription_state: present
+
+# redhat_crypto_policy
+#   Crypto policy to apply to the system
+#   (default: DEFAULT)
+redhat_crypto_policy: 'DEFAULT'
