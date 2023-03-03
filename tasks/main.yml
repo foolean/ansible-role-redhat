@@ -39,7 +39,12 @@
       become: true
       ansible.builtin.command:
         cmd: "update-crypto-policies --set {{ redhat_crypto_policy }}"
-      when: crypto_policy.stdout != redhat_crypto_policy
+      when:
+        - crypto_policy.stdout != redhat_crypto_policy
+
+  # This block is only applicable to RedHat based systems
+  when:
+    - ansible_os_family == "RedHat"
 
   # Tags to be applied to this role (block)
   tags:
